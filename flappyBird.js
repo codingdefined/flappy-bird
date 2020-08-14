@@ -13,11 +13,11 @@ fg.src = "images/fg.png";
 pipeNorth.src = "images/pipeNorth.png";
 pipeSouth.src = "images/pipeSouth.png";
 
-var gap = 150;
+var gap = 100;
 var constant;
 var bX = 10;
 var bY = 150;
-var gravity = 1.5;
+var gravity = 2;
 var score = 0;
 var highScore = localStorage.getItem('high_score');
 var currentScore = 0;
@@ -36,7 +36,7 @@ document.addEventListener("mousedown", moveUp);
 function moveUp(){
     game_mode = 'running';
     if(game_mode === 'running') {
-        bY -= 25;
+        bY -= 50;
         fly.play();
     }   
 }
@@ -90,9 +90,9 @@ function running() {
         ctx.drawImage(pipeNorth,pipe[i].x,pipe[i].y);
         ctx.drawImage(pipeSouth,pipe[i].x,pipe[i].y+constant);
              
-        pipe[i].x--;
+        pipe[i].x -= 2;
         
-        if( pipe[i].x === 500){
+        if(pipe[i].x === 500){
             pipe.push({
                 x : cvs.width,
                 y : Math.floor(Math.random()*pipeNorth.height)-pipeNorth.height
