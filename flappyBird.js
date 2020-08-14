@@ -47,7 +47,7 @@ function addInitialPipes() {
         y : 0
     };
     pipe[1] = {
-        x : 600,
+        x : 650,
         y : 0
     };
     constant = pipeNorth.height+gap;
