@@ -91,7 +91,7 @@ function running() {
              
         pipe[i].x--;
         
-        if( pipe[i].x === 600){
+        if( pipe[i].x === 500){
             pipe.push({
                 x : cvs.width,
                 y : Math.floor(Math.random()*pipeNorth.height)-pipeNorth.height
