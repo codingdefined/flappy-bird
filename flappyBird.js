@@ -22,6 +22,7 @@ var score = 0;
 var highScore = localStorage.getItem('high_score');
 var currentScore = 0;
 var game_mode = 'prestart';  
+var xConstant = 25;
 
 var fly = new Audio();
 var scor = new Audio();
@@ -62,18 +63,18 @@ function intro() {
     ctx.font= "25px Arial";
     ctx.fillStyle= "red";
     ctx.textAlign="center";
-    ctx.fillText("Press, touch or click to start", cvs.width / 2, cvs.height / 4);  
+    ctx.fillText("Press, touch or click to start", cvs.width / 2 + xConstant, cvs.height / 4);  
 }
 
  function over() {         
     ctx.font= "30px Arial";
     ctx.fillStyle= "red";
     ctx.textAlign="center";
-    ctx.fillText("Game Over", cvs.width / 2, 50);  
-    ctx.fillText("High Score: " + highScore, cvs.width / 2, 100);  
-    ctx.fillText("Current Score: " + currentScore, cvs.width / 2, 150);  
+    ctx.fillText("Game Over", cvs.width / 2 + xConstant, 50);  
+    ctx.fillText("High Score: " + highScore, cvs.width / 2 + xConstant, 100);  
+    ctx.fillText("Current Score: " + currentScore, cvs.width / 2 + xConstant, 150);  
     ctx.font= "20px Arial";
-    ctx.fillText("Click, touch, or press to play again", cvs.width / 2, 300);  
+    ctx.fillText("Click, touch, or press to play again", cvs.width / 2 + xConstant, 300);  
 }
 
 function reset() {
