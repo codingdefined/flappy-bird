@@ -43,15 +43,11 @@ function moveUp(){
 var pipe = [];
 function addInitialPipes() {
     pipe[0] = {
-        x : 400,
+        x : 250,
         y : 0
     };
     pipe[1] = {
-        x : 800,
-        y : 0
-    };
-    pipe[2] = {
-        x : cvs.width,
+        x : 600,
         y : 0
     };
     constant = pipeNorth.height+gap;
@@ -95,7 +91,7 @@ function running() {
              
         pipe[i].x--;
         
-        if( pipe[i].x == 800 ){
+        if( pipe[i].x === 600){
             pipe.push({
                 x : cvs.width,
                 y : Math.floor(Math.random()*pipeNorth.height)-pipeNorth.height
