@@ -41,10 +41,26 @@ function moveUp(){
 }
 
 var pipe = [];
-pipe[0] = {
-    x : cvs.width,
-    y : 0
-};
+function addInitialPipes() {
+    pipe[0] = {
+        x : 400,
+        y : 0
+    };
+    pipe[1] = {
+        x : 800,
+        y : 0
+    };
+    pipe[2] = {
+        x : cvs.width,
+        y : 0
+    };
+    constant = pipeNorth.height+gap;
+    for(var i = 0; i < pipe.length; i++){
+        ctx.drawImage(pipeNorth,pipe[i].x,pipe[i].y);
+        ctx.drawImage(pipeSouth,pipe[i].x,pipe[i].y+constant);
+    }
+}
+
 
 function intro() {
     ctx.font= "25px Arial";
@@ -66,10 +82,7 @@ function intro() {
 
 function reset() {
     pipe = [];
-    pipe[0] = {
-        x : cvs.width,
-        y : 0
-    };
+    addInitialPipes();
     bX = 10;
     bY = 150;
 }
@@ -82,7 +95,7 @@ function running() {
              
         pipe[i].x--;
         
-        if( pipe[i].x == 125 ){
+        if( pipe[i].x == 800 ){
             pipe.push({
                 x : cvs.width,
                 y : Math.floor(Math.random()*pipeNorth.height)-pipeNorth.height
@@ -115,12 +128,14 @@ function draw(){
     ctx.drawImage(bg,0,0);
     ctx.drawImage(fg,0,cvs.height - fg.height);
     ctx.drawImage(bird,bX,bY);
+    
     if(game_mode === 'running') {
         running();
     }
     switch (game_mode) {
         case 'prestart': {
             intro();
+            addInitialPipes();
             break;
         } 
         case 'over': {
