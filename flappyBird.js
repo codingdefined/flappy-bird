@@ -18,7 +18,7 @@ fg.src = "images/fg.png";
 pipeNorth.src = "images/pipeNorth.png";
 pipeSouth.src = "images/pipeSouth.png";
 
-var gap = 85;
+var gap = 100;
 var constant;
 var bX = 10;
 var bY = 150;
