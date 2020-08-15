@@ -4,7 +4,44 @@
     <title>Flappy Bird using JS</title>
   </head>
   <body>
-   <canvas id="canvas" width="900" height="512"></canvas>
+   
+   <div id="container">
+    <canvas id="canvas" width="900" height="512"></canvas>
+    <menu id="controls">
+      <input id="play-button" type="button" value="Play" style="display: none;"/>
+      <input id="send-highscore" type="button" value="Submit Score" style="display: none;"/>
+    </menu>
+  </div>
    <script src="flappyBird.js"></script>
   </body>
+  <style>
+    #container
+    {
+      height: 512px;
+      position: relative;
+      width: 900px;
+    }
+    #canvas
+    {
+      height: 100%;
+      width: 100%;
+    }
+    #controls
+    {
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      width: 95%;
+      display: flex;
+      justify-content: center;
+      height: 50%;
+    }
+    input
+    {
+      width:100px;
+      height:60px;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+  </style>
 </html>

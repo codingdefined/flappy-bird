@@ -1,5 +1,10 @@
 var cvs = document.getElementById("canvas");
 var ctx = cvs.getContext("2d");
+var play = document.getElementById("play-button");
+var sendHighScore = document.getElementById("send-highscore");
+var pipeSpeed = 2;
+var pipePast = 2;
+currentHighScoreSent = false;
 
 var bird = new Image();
 var bg = new Image();
@@ -13,13 +18,13 @@ fg.src = "images/fg.png";
 pipeNorth.src = "images/pipeNorth.png";
 pipeSouth.src = "images/pipeSouth.png";
 
-var gap = 100;
+var gap = 85;
 var constant;
 var bX = 10;
 var bY = 150;
 var gravity = 2;
 var score = 0;
-var highScore = localStorage.getItem('high_score');
+var highScore = 0;
 var currentScore = 0;
 var game_mode = 'prestart';  
 var xConstant = 25;
@@ -30,8 +35,16 @@ var scor = new Audio();
 fly.src = "sounds/fly.mp3";
 scor.src = "sounds/score.mp3";
 
-document.addEventListener("keydown",moveUp);  
-document.addEventListener("mousedown", moveUp);  
+play.addEventListener("click", function() {
+    score = 0;
+    moveUp();
+});
+sendHighScore.addEventListener("click", function(){
+    if(!currentHighScoreSent) {
+        alert("High Score of " + highScore + " sent to server");
+        currentHighScoreSent = true;
+    }
+})
 
 function moveUp(){
     game_mode = 'running';
@@ -63,10 +76,13 @@ function intro() {
     ctx.font= "25px Arial";
     ctx.fillStyle= "red";
     ctx.textAlign="center";
-    ctx.fillText("Press, touch or click to start", cvs.width / 2 + xConstant, cvs.height / 4);  
+    ctx.fillText("Click on Play To Start", cvs.width / 2 + xConstant, 50);  
+    play.style.display = 'block';
 }
 
- function over() {         
+ function over() {       
+    document.removeEventListener("keydown",moveUp);  
+    document.removeEventListener("mousedown", moveUp);   
     ctx.font= "30px Arial";
     ctx.fillStyle= "red";
     ctx.textAlign="center";
@@ -74,7 +90,10 @@ function intro() {
     ctx.fillText("High Score: " + highScore, cvs.width / 2 + xConstant, 100);  
     ctx.fillText("Current Score: " + currentScore, cvs.width / 2 + xConstant, 150);  
     ctx.font= "20px Arial";
-    ctx.fillText("Click, touch, or press to play again", cvs.width / 2 + xConstant, 300);  
+    play.style.display = 'block';
+    sendHighScore.style.display = 'block';
+    pipeSpeed = 2;
+    pipePast = 2;
 }
 
 function reset() {
@@ -90,9 +109,10 @@ function running() {
         ctx.drawImage(pipeNorth,pipe[i].x,pipe[i].y);
         ctx.drawImage(pipeSouth,pipe[i].x,pipe[i].y+constant);
              
-        pipe[i].x -= 2;
+        pipe[i].x -= pipeSpeed;
         
-        if(pipe[i].x === 500){
+        if((pipeSpeed === 2 && pipe[i].x ===500) || (pipeSpeed === 4 && (pipe[i].x === 499 || pipe[i].x === 500 || pipe[i].x === 501 ||
+            pipe[i].x === 502))){
             pipe.push({
                 x : cvs.width,
                 y : Math.floor(Math.random()*pipeNorth.height)-pipeNorth.height
@@ -102,15 +122,15 @@ function running() {
         if( bX + bird.width >= pipe[i].x && bX <= pipe[i].x + pipeNorth.width && (bY <= pipe[i].y + pipeNorth.height || bY+bird.height >= pipe[i].y+constant) || bY + bird.height >=  cvs.height - fg.height){
             if(score > highScore) {
                 highScore = score;
-                localStorage.setItem('high_score', highScore);
+                currentHighScoreSent = false;
             }
-            game_mode = 'over';
+            game_mode = 'over'
             currentScore = score;
-            score = 0;
             over();
         }
         
-        if(pipe[i].x == 5){
+        if((pipePast === 2 && (pipe[i].x === pipePast || pipe[i].x === pipePast - 1)) || (pipePast === 4 && (pipe[i].x === pipePast-1 || pipe[i].x === pipePast-2 ||
+            pipe[i].x === pipePast-3 || pipe[i].x === pipePast-4))){
             score++;
             scor.play();
         }
@@ -127,6 +147,14 @@ function draw(){
     ctx.drawImage(bird,bX,bY);
     
     if(game_mode === 'running') {
+        play.style.display = 'none';
+        sendHighScore.style.display = 'none';
+        document.addEventListener("keydown",moveUp);  
+        document.addEventListener("mousedown", moveUp);  
+        if(pipe.length > 10) {
+            pipeSpeed = 4;
+            pipePast = 4;
+        }
         running();
     }
     switch (game_mode) {
