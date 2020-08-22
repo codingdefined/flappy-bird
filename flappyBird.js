@@ -5,6 +5,7 @@ var sendHighScore = document.getElementById("send-highscore");
 var pipeSpeed = 2;
 var pipePast = 2;
 currentHighScoreSent = false;
+const fps = 60; // for frame per second
 
 var bird = new Image();
 var bg = new Image();
@@ -169,30 +170,10 @@ function draw(){
             break;
         } 
     }
-    requestAnimationFrame(draw);
+
+    // for frame per second
+    setTimeout(() => {
+        requestAnimationFrame(draw);
+    }, 1000/fps);
 }
 draw();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
